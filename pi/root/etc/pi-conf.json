@@ -1,0 +1,8 @@
+{
+  "repos": [
+    {
+      "name": "Cambodia",
+      "address": "http://localhost:5005"
+    }
+  ]
+}

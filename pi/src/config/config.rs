@@ -1,0 +1,17 @@
+use crate::schemas::config::Config;
+use std::{
+    fs::File,
+    io::{prelude::*, BufReader, Result},
+    str,
+};
+
+pub fn get_repos() -> Config {
+    let file = File::open("root/etc/pi-conf.json").unwrap();
+    let mut buf_reader = BufReader::new(file);
+    let mut contents = String::new();
+    buf_reader.read_to_string(&mut contents).unwrap();
+    let configurations: Config =
+        serde_json::from_str(&String::from(contents)).expect("JSON was not well-formatted");
+
+    configurations
+}
