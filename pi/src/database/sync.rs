@@ -20,6 +20,13 @@ fn version(url: &str) -> Version {
 
 pub fn sync() {
     let configurations: Config = config::get_repos();
+    if !configurations.production {
+        println!(
+            "{}\n{}",
+            "WARNING:".yellow().bold(),
+            "This software is running development mode.".yellow()
+        );
+    };
     let repo_address: String = String::from(configurations.repos[0].address.clone());
     let db_address = format!("{}/db/db.json", &repo_address);
     let version_address = format!("{}/db/version", &repo_address);

@@ -1,8 +1,9 @@
 {
-  "repos": [
-    {
-      "name": "Cambodia",
-      "address": "http://localhost:5005"
-    }
-  ]
+	"repos": [
+		{
+			"name": "Cambodia",
+			"address": "http://localhost:5005"
+		}
+	],
+	"production": false
 }
