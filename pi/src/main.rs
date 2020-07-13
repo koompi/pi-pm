@@ -14,7 +14,8 @@ fn main() {
     let app_registry = db::init("root/store/db/installed.json");
     // println!("{:#?}", app_stream);
     // println!("{:#?}", app_registry);
-    app_registry.install(app_stream, vec!["nodejs", "atom", "code"])
+    app_registry.install(&app_stream, vec!["nodejs", "atom", "code"]);
+    app_registry.search_papp("nodejs");
     // println!("{:#?}", local_db);
     // println!("{:?}", local_db.search_rbool("code"));
     // println!("{:?}", local_db.search_rindex("nodejs"));

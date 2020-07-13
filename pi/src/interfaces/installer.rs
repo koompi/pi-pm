@@ -10,7 +10,7 @@ impl Store {
     // installing methods
     // FLOW
     // 1. search from db if app exist
-    // 2. search is app already installed
+    // 2. search if app already installed
     // 3. resolve packages to be downloaded
     // 4. download packages
     // 5. verify package signature
@@ -18,7 +18,7 @@ impl Store {
     // 7. install packages
     // 8. update installed database
     // 9. commit transaction
-    pub fn install(&self, db: Store, mut apps: Vec<&str>) {
+    pub fn install(&self, db: &Store, mut apps: Vec<&str>) {
         // sort the app order so it reduce the loop cycle
         apps.sort();
         // find app from app_stream
