@@ -9,6 +9,6 @@ pub fn extract(path: &str, source_file_name: &str, destination_dir: &str) -> std
     let tar_gz = File::open(target)?;
     let tar = GzDecoder::new(tar_gz);
     let mut archive = Archive::new(tar);
-    archive.unpack(destination_dir);
+    archive.unpack(destination_dir).unwrap_or(());
     Ok(())
 }

@@ -1,5 +1,5 @@
 use crate::{
-    helpers::{download::download, extract::extract},
+    helpers::{download::download, extract::extract, file::file_writer},
     schemas::store::Store,
 };
 use colored::Colorize;
@@ -21,7 +21,7 @@ impl Store {
     // 7. install packages
     // 8. update installed database
     // 9. commit transaction
-    pub fn install(&self, db: &Store, mut apps: Vec<&str>) {
+    pub fn install(&mut self, db: &Store, mut apps: Vec<&str>) {
         // sort the app order so it reduce the loop cycle
         apps.sort();
         // find app from app_stream
@@ -86,14 +86,10 @@ impl Store {
                 let path = "root/store/cache";
                 let name = &format!("{}.tar.gz", &db.apps[*app as usize].name);
                 let dest = "root/";
-                #[allow(unused_must_use)]
-                extract(path, name, dest).unwrap();
-                // match extract(path, name, dest) {
-                //     Ok(()) => println!("Installing: {}", &db.apps[*app as usize].name),
-                //     Err(_e) => println!("There was some error"),
-                // }
+                extract(path, name, dest).unwrap_or(());
+                &self.apps.push(db.apps[*app as usize].clone());
             }
-
+            file_writer(self.clone(), "root/store/db/installed.json").unwrap_or(());
             // TODO:
             // [] check package signature
             // [] resolve installation order
