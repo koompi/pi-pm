@@ -5,4 +5,5 @@ use serde_derive::{Deserialize, Serialize};
 pub struct Config {
     pub repos: Vec<Repo>,
     pub production: bool,
+    pub root: String,
 }

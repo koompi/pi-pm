@@ -13,6 +13,7 @@ fn download_file(address: &str, file: &str, resume: bool) -> u8 {
         .env("COLUMNS", "80")
         .output()
         .expect("failed to execute process");
+
     let download_no_resume = Command::new("curl")
         .arg("-#")
         .arg(address)
@@ -22,6 +23,7 @@ fn download_file(address: &str, file: &str, resume: bool) -> u8 {
         .env("COLUMNS", "80")
         .output()
         .expect("failed to execute process");
+
     if resume {
         match stderr().write_all(&download_resume.stderr) {
             Ok(()) => 0,

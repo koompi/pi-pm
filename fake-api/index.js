@@ -5,6 +5,7 @@ const path = require("path");
 const app = express();
 
 app.use(cors("*"));
+
 app.use("/", express.static(path.join(__dirname, "public")));
 
 app.get("/db/version", (req, res) => res.json({ version: 20200617 }));

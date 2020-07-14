@@ -2,4 +2,5 @@
 pub mod REST;
 pub mod compare;
 pub mod download;
+pub mod extract;
 pub mod file;
