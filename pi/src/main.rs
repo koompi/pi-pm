@@ -10,11 +10,12 @@ use database::{db, sync};
 
 fn main() {
     sync::sync();
-    let app_stream = db::init("root/store/db/store.json");
-    let mut app_registry = db::init("root/store/db/installed.json");
-    // println!("{:#?}", app_stream);
-    // println!("{:#?}", app_registry);
-    app_registry.install(&app_stream, vec!["nodejs", "atom", "code"]);
+    let local_db = db::init("root/store/db/store.json");
+    let mut registry = db::init("root/store/db/installed.json");
+    // println!("{:#?}", local_db);
+    // println!("{:#?}", registry);
+    registry.install(&local_db, vec!["code", "atom"]);
+    println!("{:#?}", registry);
     // println!("{:#?}", local_db);
     // println!("{:?}", local_db.search_rbool("code"));
     // println!("{:?}", local_db.search_rindex("nodejs"));

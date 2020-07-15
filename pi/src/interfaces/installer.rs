@@ -72,27 +72,41 @@ impl Store {
             // remove dupilcats from app list
             let clean_app_list: Vec<_> = apps_location.into_iter().unique().collect();
 
+            // Download all apps from list
             for app in clean_app_list.iter() {
                 let src = &db.apps[*app as usize].tarball_src;
                 let name = format!("{}.app", &db.apps[*app as usize].name);
                 let dest = "root/store/cache";
                 let resume = true;
+
+                // might need to add column from here
                 if download(src, dest, &name, resume) {
                     println!("[done] {}", name);
                 }
             }
 
+            // extract app to system
             for app in clean_app_list.iter() {
                 let path = "root/store/cache";
                 let name = &format!("{}.app", &db.apps[*app as usize].name);
                 let dest = "root/";
                 extract(path, name, dest).unwrap_or(());
-                &self.apps.push(db.apps[*app as usize].clone());
+                // &self.apps.push(db.apps[*app as usize].clone());
             }
+
+            // prepare data to write to db
+            for app in clean_app_list.iter() {
+                if self.search_rbool(&db.apps[*app as usize].name) {
+                    // &self.apps.push(db.apps[*app as usize].clone());
+                    let target = self.search_rindex(&db.apps[*app as usize].name);
+                    self.apps[target as usize] = db.apps[*app as usize].clone();
+                } else {
+                    &self.apps.push(db.apps[*app as usize].clone());
+                }
+            }
+
+            // commit db transaction
             file_writer(self.clone(), "root/store/db/installed.json").unwrap_or(());
-            // TODO:
-            // [] check package signature
-            // [] resolve installation order
         }
     }
 }
