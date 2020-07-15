@@ -47,7 +47,7 @@ impl Store {
         } else {
             let mut dep_list: Vec<String> = vec![];
             for app in apps_location.iter() {
-                // println!("{}", &db.tar.gzs[*app as usize].name);
+                // println!("{}", &db.apps[*app as usize].name);
                 let app_deps = &db.apps[*app as usize].runtime_deps;
                 if app_deps.len() > 0 {
                     if app_deps[0] != "none" {
@@ -74,7 +74,7 @@ impl Store {
 
             for app in clean_app_list.iter() {
                 let src = &db.apps[*app as usize].tarball_src;
-                let name = format!("{}.tar.gz", &db.apps[*app as usize].name);
+                let name = format!("{}.app", &db.apps[*app as usize].name);
                 let dest = "root/store/cache";
                 let resume = true;
                 if download(src, dest, &name, resume) {
@@ -84,7 +84,7 @@ impl Store {
 
             for app in clean_app_list.iter() {
                 let path = "root/store/cache";
-                let name = &format!("{}.tar.gz", &db.apps[*app as usize].name);
+                let name = &format!("{}.app", &db.apps[*app as usize].name);
                 let dest = "root/";
                 extract(path, name, dest).unwrap_or(());
                 &self.apps.push(db.apps[*app as usize].clone());
