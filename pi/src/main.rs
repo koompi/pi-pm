@@ -1,4 +1,4 @@
-#![allow(unused_imports, unused_assignments)]
+#![allow(unused_imports, unused_assignments, unused_variables)]
 pub mod config;
 pub mod database;
 pub mod helpers;
@@ -14,8 +14,9 @@ fn main() {
     let mut registry = db::init("root/store/db/installed.json");
     // println!("{:#?}", local_db);
     // println!("{:#?}", registry);
-    registry.install(&local_db, vec!["code", "atom"]);
-    println!("{:#?}", registry);
+    // registry.install(&local_db, vec!["code", "atom"]);
+    // println!("{:#?}", registry);
+    registry.remove(vec!["code", "atom"]);
     // println!("{:#?}", local_db);
     // println!("{:?}", local_db.search_rbool("code"));
     // println!("{:?}", local_db.search_rindex("nodejs"));
