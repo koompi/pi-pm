@@ -31,13 +31,13 @@ pub fn sync() {
     let db_address = format!("{}/db/db.json", &repo_address);
     let version_address = format!("{}/db/version", &repo_address);
     let server_version: Version = version(&version_address);
-    let local_version: Version = Version { version: 20200617 };
+    let local_version: Version = Version { version: 20200717 };
     let cmp_result: i8 = compare(local_version.version, server_version.version);
     println!("{}", "AppStore is checking for database updates...".blue());
     if cmp_result != 0 {
         println!("Downloading database updates...");
         download(&db_address, "root/store/db", "store.json", false);
     } else {
-        println!("{}", "You are running the latest software version.".green());
+        println!("{}", "AppStore database is up to date.".green());
     };
 }
