@@ -6,15 +6,15 @@ use colored::Colorize;
 use std::fs::{metadata, remove_dir_all, remove_file, File};
 
 impl Store {
-    pub fn search_existed_locally(&self, name: &str) -> bool {
-        let mut found: bool = false;
-        for app in self.apps.iter() {
-            if app.name == name {
-                found = true;
-            }
-        }
-        found
-    }
+    // pub fn search_existed_locally(&self, name: &str) -> bool {
+    //     let mut found: bool = false;
+    //     for app in self.apps.iter() {
+    //         if app.name == name {
+    //             found = true;
+    //         }
+    //     }
+    //     found
+    // }
 
     pub fn get_remove_target(&mut self, apps: Vec<&str>) -> Vec<String> {
         let mut target: Vec<String> = Vec::new();
@@ -40,7 +40,7 @@ impl Store {
                             let mut response: Vec<String> = Vec::new();
 
                             for dep in p.required_by.iter() {
-                                let result = self.search_existed_locally(dep);
+                                let result = self.search_rbool(dep);
                                 if result {
                                     response.push(dep.to_string());
                                 }
@@ -70,7 +70,7 @@ impl Store {
         let mut not_found: Vec<String> = Vec::new();
 
         for app in apps.iter() {
-            if !self.search_existed_locally(app) {
+            if !self.search_rbool(app) {
                 not_found.push(app.to_string());
             }
         }
@@ -118,7 +118,6 @@ impl Store {
                     Ok(()) => println!("Uninstallation completed successfully."),
                     Err(err) => println!("Uninstallation completed with some error:\n{}", err),
                 }
-                // file_writer(self.clone(), "root/store/db/installed.json").unwrap_or(());
             }
         }
     }
