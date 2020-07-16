@@ -1,9 +1,7 @@
 use curl::easy::Easy;
-use std::io::{stdout, Write};
 use std::str;
 
 pub fn get(url: &str) -> String {
-    let mut result: String = String::from("");
     let mut data = Vec::new();
     let mut handle = Easy::new();
     handle.url(url).unwrap();
@@ -17,6 +15,6 @@ pub fn get(url: &str) -> String {
             .unwrap();
         transfer.perform().unwrap();
     }
-    result = String::from_utf8(data).unwrap();
+    let result: String = String::from_utf8(data).unwrap();
     result
 }

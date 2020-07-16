@@ -1,15 +1,9 @@
 use crate::{
     config::config,
-    helpers::{
-        compare::compare,
-        download::download,
-        file::{file_reader, file_writer, vserion_reader},
-        REST::get,
-    },
-    schemas::{config::Config, store::Store, version::Version},
+    helpers::{compare::compare, download::download, file::vserion_reader, REST::get},
+    schemas::{config::Config, version::Version},
 };
 use colored::Colorize;
-use std::process::Command;
 
 fn cloud_version(url: &str) -> Version {
     let v_string = get(url);

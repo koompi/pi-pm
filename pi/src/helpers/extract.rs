@@ -1,6 +1,5 @@
 use flate2::read::GzDecoder;
 use std::fs::File;
-use std::io::prelude::*;
 use tar::Archive;
 
 pub fn extract(path: &str, source_file_name: &str, destination_dir: &str) -> std::io::Result<()> {

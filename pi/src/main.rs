@@ -1,4 +1,4 @@
-#![allow(unused_imports, unused_assignments, unused_variables)]
+// #![allow(unused_imports, unused_assignments, unused_variables)]
 pub mod config;
 pub mod database;
 pub mod helpers;

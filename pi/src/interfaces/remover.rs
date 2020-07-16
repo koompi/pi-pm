@@ -1,10 +1,6 @@
-use crate::{
-    config::config::get,
-    helpers::file::file_writer,
-    schemas::{app::App, store::Store},
-};
-use colored::Colorize;
-use std::fs::{metadata, remove_dir_all, remove_file, File};
+use crate::{config::config::get, helpers::file::file_writer, schemas::store::Store};
+
+use std::fs::{metadata, remove_dir_all, remove_file};
 
 impl Store {
     // pub fn search_existed_locally(&self, name: &str) -> bool {

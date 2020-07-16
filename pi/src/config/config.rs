@@ -1,8 +1,7 @@
 use crate::schemas::config::Config;
 use std::{
     fs::File,
-    io::{prelude::*, BufReader, Result},
-    str,
+    io::{prelude::*, BufReader},
 };
 
 pub fn get() -> Config {
