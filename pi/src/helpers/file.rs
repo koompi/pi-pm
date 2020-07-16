@@ -1,4 +1,4 @@
-use crate::schemas::store::Store;
+use crate::schemas::{store::Store, version::Version};
 use std::{
     fs::File,
     io::{prelude::*, BufReader, Result},
@@ -22,4 +22,15 @@ pub fn file_writer(data_src: Store, _path: &str) -> Result<()> {
 
     f.sync_all()?;
     Ok(())
+}
+
+pub fn vserion_reader(_path: &str) -> Version {
+    let file = File::open(_path).unwrap();
+    let mut buf_reader = BufReader::new(file);
+    let mut contents = String::new();
+    buf_reader.read_to_string(&mut contents).unwrap();
+    let v: Version =
+        serde_json::from_str(&String::from(contents)).expect("JSON was not well-formatted");
+
+    v
 }

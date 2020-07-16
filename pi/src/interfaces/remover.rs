@@ -1,4 +1,5 @@
 use crate::{
+    config::config::get,
     helpers::file::file_writer,
     schemas::{app::App, store::Store},
 };
@@ -114,7 +115,7 @@ impl Store {
                         None => println!("{} :Not found", app),
                     }
                 }
-                match file_writer(self.clone(), "root/store/db/installed.json") {
+                match file_writer(self.clone(), &get().registry) {
                     Ok(()) => println!("Uninstallation completed successfully."),
                     Err(err) => println!("Uninstallation completed with some error:\n{}", err),
                 }

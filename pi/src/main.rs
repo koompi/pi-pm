@@ -6,12 +6,14 @@ pub mod interfaces;
 pub mod operations;
 pub mod schemas;
 
+use config::config::get;
 use database::{db, sync};
-
+use schemas::config::Config;
 fn main() {
+    let configuration: Config = get();
     sync::sync();
-    let mut local_db = db::init("root/store/db/store.json");
-    let mut registry = db::init("root/store/db/installed.json");
+    let mut local_db = db::init(&configuration.local_db);
+    let mut registry = db::init(&configuration.registry);
 
     // println!("{:#?}", local_db);
     // println!("{:#?}", registry);

@@ -5,7 +5,7 @@ use std::{
     str,
 };
 
-pub fn get_repos() -> Config {
+pub fn get() -> Config {
     let file = File::open("root/etc/pi-conf.json").unwrap();
     let mut buf_reader = BufReader::new(file);
     let mut contents = String::new();

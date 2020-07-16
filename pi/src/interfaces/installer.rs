@@ -1,4 +1,5 @@
 use crate::{
+    config::config::get,
     helpers::{download::download, extract::extract, file::file_writer},
     schemas::store::Store,
 };
@@ -60,20 +61,20 @@ impl Store {
 
             for app in clean_app_list.iter() {
                 let src = &db.apps[*app as usize].tarball_src;
-                let name = format!("{}.app", &db.apps[*app as usize].name);
-                let dest = "root/store/cache";
+                let name = format!("{}{}", &db.apps[*app as usize].name, get().executable_ext);
+                let dest = get().cache_directory;
                 let resume = true;
 
-                if download(src, dest, &name, resume) {
+                if download(src, &dest, &name, resume) {
                     println!("[done] {}", name);
                 }
             }
 
             for app in clean_app_list.iter() {
-                let path = "root/store/cache";
-                let name = &format!("{}.app", &db.apps[*app as usize].name);
-                let dest = "root/";
-                extract(path, name, dest).unwrap_or(());
+                let path = get().cache_directory;
+                let name = &format!("{}{}", &db.apps[*app as usize].name, get().executable_ext);
+                let dest = get().installation_target;
+                extract(&path, name, &dest).unwrap_or(());
             }
 
             for app in clean_app_list.iter() {
@@ -85,7 +86,7 @@ impl Store {
                 }
             }
 
-            file_writer(self.clone(), "root/store/db/installed.json").unwrap_or(());
+            file_writer(self.clone(), &get().registry).unwrap_or(());
         }
     }
 }

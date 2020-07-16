@@ -3,7 +3,7 @@ use crate::{
     helpers::{
         compare::compare,
         download::download,
-        file::{file_reader, file_writer},
+        file::{file_reader, file_writer, vserion_reader},
         REST::get,
     },
     schemas::{config::Config, store::Store, version::Version},
@@ -11,15 +11,19 @@ use crate::{
 use colored::Colorize;
 use std::process::Command;
 
-fn version(url: &str) -> Version {
+fn cloud_version(url: &str) -> Version {
     let v_string = get(url);
     let v: Version = serde_json::from_str(&String::from(v_string)).expect("Error reading version");
 
     v
 }
 
+fn disk_version(path: &str) -> Version {
+    vserion_reader(path)
+}
+
 pub fn sync() {
-    let configurations: Config = config::get_repos();
+    let configurations: Config = config::get();
     if !configurations.production {
         println!(
             "{}\n{}",
@@ -30,8 +34,8 @@ pub fn sync() {
     let repo_address: String = String::from(configurations.repos[0].address.clone());
     let db_address = format!("{}/db/db.json", &repo_address);
     let version_address = format!("{}/db/version", &repo_address);
-    let server_version: Version = version(&version_address);
-    let local_version: Version = Version { version: 20200717 };
+    let server_version: Version = cloud_version(&version_address);
+    let local_version: Version = disk_version(&config::get().version_file);
     let cmp_result: i8 = compare(local_version.version, server_version.version);
     println!("{}", "AppStore is checking for database updates...".blue());
     if cmp_result != 0 {
