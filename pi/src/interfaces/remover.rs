@@ -3,16 +3,6 @@ use crate::{config::config::get, helpers::file::file_writer, schemas::store::Sto
 use std::fs::{metadata, remove_dir_all, remove_file};
 
 impl Store {
-    // pub fn search_existed_locally(&self, name: &str) -> bool {
-    //     let mut found: bool = false;
-    //     for app in self.apps.iter() {
-    //         if app.name == name {
-    //             found = true;
-    //         }
-    //     }
-    //     found
-    // }
-
     pub fn get_remove_target(&mut self, apps: Vec<&str>) -> Vec<String> {
         let mut target: Vec<String> = Vec::new();
         for app in apps.iter() {
