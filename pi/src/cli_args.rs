@@ -19,9 +19,7 @@ pub fn command_line_interface<'a, 'b>() -> App<'a, 'b> {
             Arg::with_name("update")
                 .help("update applications")
                 .short("u")
-                .long("update")
-                // .takes_value(true)
-                // .multiple(true),
+                .long("update"),
         )
         .arg(
             Arg::with_name("remove")
