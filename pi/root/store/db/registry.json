@@ -1,6 +1,48 @@
 {
   "apps": [
     {
+      "id": "003",
+      "name": "nodejs",
+      "desc": "text editor",
+      "license": "GPLv3",
+      "architecture": [
+        "x86_64"
+      ],
+      "version": "2.0.1",
+      "build_date": 20200712,
+      "signature": "thisismysignature",
+      "upstream": "upstram_string",
+      "tarball_src": "http://localhost:5005/apps/nodejs.app",
+      "owner": "koompi",
+      "owner_website": "www.koompi.com",
+      "maintainer": [
+        "PHAL Brilliant"
+      ],
+      "build_deps": [
+        "make"
+      ],
+      "runtime_deps": [
+        "none"
+      ],
+      "optional_deps": [
+        "gvfs"
+      ],
+      "conflict_with": [
+        "code"
+      ],
+      "required_by": [
+        "atom",
+        "code"
+      ],
+      "provide": [
+        "root/usr/bin/nodejs"
+      ],
+      "content": [
+        "root/usr/share/nodejs",
+        "root/usr/bin/nodejs"
+      ]
+    },
+    {
       "id": "002",
       "name": "atom",
       "desc": "text editor",
@@ -80,48 +122,6 @@
       "content": [
         "root/usr/share/code",
         "root/usr/bin/code"
-      ]
-    },
-    {
-      "id": "003",
-      "name": "nodejs",
-      "desc": "text editor",
-      "license": "GPLv3",
-      "architecture": [
-        "x86_64"
-      ],
-      "version": "2.0.1",
-      "build_date": 20200712,
-      "signature": "thisismysignature",
-      "upstream": "upstram_string",
-      "tarball_src": "http://localhost:5005/apps/nodejs.app",
-      "owner": "koompi",
-      "owner_website": "www.koompi.com",
-      "maintainer": [
-        "PHAL Brilliant"
-      ],
-      "build_deps": [
-        "make"
-      ],
-      "runtime_deps": [
-        "none"
-      ],
-      "optional_deps": [
-        "gvfs"
-      ],
-      "conflict_with": [
-        "code"
-      ],
-      "required_by": [
-        "atom",
-        "code"
-      ],
-      "provide": [
-        "root/usr/bin/nodejs"
-      ],
-      "content": [
-        "root/usr/share/nodejs",
-        "root/usr/bin/nodejs"
       ]
     }
   ]

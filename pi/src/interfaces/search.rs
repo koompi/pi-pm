@@ -41,4 +41,10 @@ impl Store {
             println!("{:#?}", self.apps[result as usize]);
         }
     }
+
+    pub fn search_papps(&self, apps: Vec<&str>) {
+        for app in apps.iter() {
+            self.search_papp(app);
+        }
+    }
 }

@@ -1,4 +1,5 @@
-// #![allow(unused_imports, unused_assignments, unused_variables)]
+// #![allow(unused_imports, unused_assignments, unused_variables, unused_mut)]
+mod cli_args;
 pub mod config;
 pub mod database;
 pub mod helpers;
@@ -6,8 +7,10 @@ pub mod interfaces;
 pub mod operations;
 pub mod schemas;
 
+use cli_args::command_line_interface;
 use config::config::get;
 use database::{db, sync};
+use operations::Operation;
 use schemas::config::Config;
 fn main() {
     let configuration: Config = get();
@@ -15,16 +18,55 @@ fn main() {
     let mut local_db = db::init(&configuration.local_db);
     let mut registry = db::init(&configuration.registry);
 
-    // println!("{:#?}", local_db);
-    // println!("{:#?}", registry);
-    // registry.install(&local_db, vec!["code", "atom"]);
-    // println!("{:#?}", registry);
-    // registry.remove(vec!["nodejs"]);
-    registry.update(&mut local_db);
-    // println!("{:#?}", local_db);
-    // println!("{:?}", local_db.search_rbool("code"));
-    // println!("{:?}", local_db.search_rindex("nodejs"));
-    // local_db.search_papp("nodejs");
-    // let app = local_db.search_rapp("nodejs");
-    // println!("{:#?}", app.unwrap());
+    // Empty vectore for storing application list from user input
+    let mut apps: Vec<&str> = Vec::new();
+    // All arguement interfaces declared using CLAP
+    let pi = command_line_interface();
+    let matches = pi.clone().get_matches();
+
+    // Check for given operation variants from user input
+    let op = if matches.is_present("install") {
+        Operation::Install
+    } else if matches.is_present("update") {
+        Operation::Update
+    } else if matches.is_present("remove") {
+        Operation::Remove
+    } else if matches.is_present("search") {
+        Operation::Search
+    } else {
+        Operation::Help
+    };
+
+    // Bind each operation variants to operation functions
+    match op {
+        Operation::Install => {
+            let args_list = matches.values_of("install").unwrap().collect::<Vec<_>>();
+            for arg in args_list.iter() {
+                apps.push(*arg);
+            }
+            registry.install(&local_db, apps);
+        }
+        Operation::Update => {
+            registry.update(&mut local_db);
+        }
+        Operation::Remove => {
+            let args_list = matches.values_of("remove").unwrap().collect::<Vec<_>>();
+            for arg in args_list.iter() {
+                apps.push(*arg);
+            }
+            registry.remove(apps);
+        }
+        Operation::Search => {
+            let args_list = matches.values_of("search").unwrap().collect::<Vec<_>>();
+            for arg in args_list.iter() {
+                apps.push(*arg);
+            }
+            registry.search_papps(apps);
+        }
+        _ => {
+            let helper = pi.clone().print_help();
+            helper.unwrap();
+            println!("");
+        }
+    }
 }
